@@ -5,21 +5,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Recommendation</title>
+  <title>オヌヌメゲーム紹介会</title>
 </head>
 <body>
-  <h1>Game Recommendation</h1>
+  <h1>オヌヌメゲームを教えてね！</h1>
   <form id="gameForm">
-    <label for="gameName">Game Name:</label>
+    <label for="gameName">ゲーム名:</label>
     <input type="text" id="gameName" name="gameName" required><br>
     
-    <label for="platform">Platform:</label>
+    <label for="platform">プラットフォーム:</label>
     <input type="text" id="platform" name="platform" required><br>
 
-    <label for="gameUrl">Game URL:</label>
+    <label for="gameUrl">URL:</label>
     <input type="text" id="gameUrl" name="gameUrl" required><br>
 
-    <button type="button" onclick="submitForm()">Submit</button>
+    <button type="button" onclick="submitForm()">追加</button>
   </form>
 
   <div id="response"></div>
@@ -30,15 +30,23 @@
       const platform = document.getElementById('platform').value;
       const gameUrl = document.getElementById('gameUrl').value;
 
-      const userMessage = `${gameName},${platform},${gameUrl}`;
+      if (gameName && platform && gameUrl) {
+        const userMessage = `${gameName},${platform},${gameUrl}`;
 
-      google.script.run
-        .withSuccessHandler(displayResponse)
-        .doPost({ userMessage: userMessage });
+        google.script.run
+          .withSuccessHandler(displayResponse)
+          .doPost({ userMessage: userMessage });
+      } else {
+        document.getElementById('response').textContent = "正しく入力してください";
+      }
     }
 
     function displayResponse(response) {
       document.getElementById('response').textContent = response.content;
+      if (response.content.includes("記録しました")) {
+        // 成功した場合、再度入力画面に遷移
+        document.getElementById('gameForm').reset();
+      }
     }
   </script>
 </body>
