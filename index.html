@@ -1,11 +1,10 @@
 <!-- HTML Code -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>オヌヌメゲーム紹介会</title>
+  <title>オヌヌメゲーム紹介所</title>
 </head>
 <body>
   <h1>オヌヌメゲームを教えてね！</h1>
@@ -29,23 +28,19 @@
       const gameName = document.getElementById('gameName').value;
       const platform = document.getElementById('platform').value;
       const gameUrl = document.getElementById('gameUrl').value;
-
-      if (gameName && platform && gameUrl) {
-        const userMessage = `${gameName},${platform},${gameUrl}`;
-
-        google.script.run
-          .withSuccessHandler(displayResponse)
-          .doPost({ userMessage: userMessage });
-      } else {
-        document.getElementById('response').textContent = "正しく入力してください";
-      }
+  
+      google.script.run
+        .withSuccessHandler(displayResponse)
+        .recordGameInfo(gameName, platform, gameUrl);
     }
-
+  
     function displayResponse(response) {
-      document.getElementById('response').textContent = response.content;
-      if (response.content.includes("記録しました")) {
-        // 成功した場合、再度入力画面に遷移
-        document.getElementById('gameForm').reset();
+      document.getElementById('response').textContent = response;
+  
+      // レスポンスに成功メッセージが含まれるか確認します
+      if (response.includes("おススメゲームを見てみよう")) {
+        // 任意で、必要に応じてUIを更新したり、リダイレクトするためのコードをここに追加できます。
+        // 例: window.location.href = 'newPage.html';
       }
     }
   </script>
