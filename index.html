@@ -1,0 +1,45 @@
+<!-- HTML Code -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Recommendation</title>
+</head>
+<body>
+  <h1>Game Recommendation</h1>
+  <form id="gameForm">
+    <label for="gameName">Game Name:</label>
+    <input type="text" id="gameName" name="gameName" required><br>
+    
+    <label for="platform">Platform:</label>
+    <input type="text" id="platform" name="platform" required><br>
+
+    <label for="gameUrl">Game URL:</label>
+    <input type="text" id="gameUrl" name="gameUrl" required><br>
+
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    function submitForm() {
+      const gameName = document.getElementById('gameName').value;
+      const platform = document.getElementById('platform').value;
+      const gameUrl = document.getElementById('gameUrl').value;
+
+      const userMessage = `${gameName},${platform},${gameUrl}`;
+
+      google.script.run
+        .withSuccessHandler(displayResponse)
+        .doPost({ userMessage: userMessage });
+    }
+
+    function displayResponse(response) {
+      document.getElementById('response').textContent = response.content;
+    }
+  </script>
+</body>
+</html>
