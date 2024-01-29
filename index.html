@@ -34,15 +34,16 @@
         .recordGameInfo(gameName, platform, gameUrl);
     }
   
-    function displayResponse(response) {
-      document.getElementById('response').textContent = response;
-  
-      // レスポンスに成功メッセージが含まれるか確認します
-      if (response.includes("おススメゲームを見てみよう")) {
-        // 任意で、必要に応じてUIを更新したり、リダイレクトするためのコードをここに追加できます。
-        // 例: window.location.href = 'newPage.html';
-      }
-    }
+  function displayResponse(response) {
+    document.getElementById('response').textContent = response;
+
+    // レスポンスに成功メッセージが含まれるか確認します
+    const successMessage = "おススメゲームを見てみよう\nhttps://docs.google.com/spreadsheets/d/1ow4tBxrj6SO79-yQQhkiP9BWMBYvf6_iSuxDNIK_t1M/edit#gid=0";
+    if (response.includes(successMessage)) {
+      // 成功メッセージが含まれている場合の処理
+      // 例: window.location.href = 'newPage.html';  // 新しいページにリダイレクト
+  }
+}
   </script>
 </body>
 </html>
