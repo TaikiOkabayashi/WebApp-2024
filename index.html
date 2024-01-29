@@ -5,6 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>オヌヌメゲーム紹介所</title>
+  <style>
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <h1>オヌヌメゲームを教えてね！</h1>
@@ -21,7 +27,7 @@
     <button type="button" onclick="submitForm()">追加</button>
   </form>
 
-  <div id="response"></div>
+  <div id="response" class="error"></div>
 
   <script>
     function submitForm() {
@@ -29,9 +35,15 @@
       const platform = document.getElementById('platform').value;
       const gameUrl = document.getElementById('gameUrl').value;
 
-      google.script.run
-        .withSuccessHandler(displayResponse)
-        .recordGameInfoWeb(gameName, platform, gameUrl);
+      // 入力が正しくない場合はエラーメッセージを表示
+      if (!gameName.trim() || !platform.trim() || !gameUrl.trim()) {
+        document.getElementById('response').textContent = "正しく入力してください。";
+      } else {
+        document.getElementById('response').textContent = "";  // エラーメッセージをクリア
+        google.script.run
+          .withSuccessHandler(displayResponse)
+          .recordGameInfoWeb(gameName, platform, gameUrl);
+      }
     }
 
     function displayResponse(response) {
